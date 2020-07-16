@@ -1,39 +1,44 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Category, Section, Advertisement
-from .serializers import CategoriesListSerializers, SectionsListSerializers, AdvertisementsListSerializers, AdvertisementDetailSerializers, AdvertisementCreateSerializers
+from .serializers import (
+    CategoriesListSerializer, 
+    SectionsListSerializer, 
+    AdvertisementsListSerializer, 
+    AdvertisementDetailSerializer, 
+    AdvertisementCreateSerializer
+)
+from .service import AdvertisementFilter
 
 # Create your views here.
-class CategoriesListView(APIView):
-    def get(self, request):
+class CategoriesListView(generics.ListAPIView):
+    serializer_class = CategoriesListSerializer
+
+    def get_queryset(self):
         categories = Category.objects.all()
-        serializers = CategoriesListSerializers(categories, many=True)
-        return Response(serializers.data)
+        return categories
 
-class SectionsListView(APIView):
-    def get(self, request, category_url):
-        category = Category.objects.get(url=category_url)
+class SectionsListView(generics.ListAPIView):
+    serializer_class = SectionsListSerializer
+
+    def get_queryset(self):
+        category = Category.objects.get()
         sections = Section.objects.filter(category=category)
-        serializers = SectionsListSerializers(sections, many=True)
-        return Response(serializers.data)
+        return sections
 
-class AdvertisementListView(APIView):
-    def get(self, request, section_url):
-        section = Section.objects.get(url=section_url)
+class AdvertisementListView(generics.ListAPIView):
+    serializer_class = AdvertisementsListSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = AdvertisementFilter
+
+    def get_queryset(self):
+        section = Section.objects.get()
         advertisement = Advertisement.objects.filter(section=section)
-        serializers = AdvertisementsListSerializers(advertisement, many=True)
-        return Response(serializers.data)
+        return advertisement
 
-class AdvertisementDetailView(APIView):
-    def get(self, request, advertisement_id):
-        advertisement = Advertisement.objects.get(id=advertisement_id)
-        serializers = AdvertisementDetailSerializers(advertisement)
-        return Response(serializers.data)
+class AdvertisementDetailView(generics.RetrieveAPIView):
+    queryset = Advertisement.objects.filter()
+    serializer_class = AdvertisementDetailSerializer
 
-class AdvertisementCreateView(APIView):
-    def post(self, request):
-        advertisement = AdvertisementCreateSerializers(data=request.data)
-        if advertisement.is_valid():
-            advertisement.save()
-            return Response(status=201)
-        return Response(advertisement.errors, status=400)
+class AdvertisementCreateView(generics.CreateAPIView):
+    serializer_class = AdvertisementCreateSerializer
