@@ -1,9 +1,11 @@
+from uuid import uuid4
 from django.db import models
 from django.utils import timezone
 from auth_core.models import User
 
 # Create your models here.
 class Category(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=50)
     url = models.SlugField()
     image = models.ImageField(upload_to='categories')
@@ -15,6 +17,7 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
 class Section(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=50)
     url = models.SlugField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -23,6 +26,7 @@ class Section(models.Model):
         return self.name
 
 class Advertisement(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     description = models.TextField()
@@ -35,6 +39,7 @@ class Advertisement(models.Model):
         return self.title
 
 class AdvertisementImage(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     image = models.ImageField(upload_to='advertisements')
     advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE, related_name='images')
 

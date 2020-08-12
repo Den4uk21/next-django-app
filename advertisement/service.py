@@ -3,7 +3,7 @@ from .models import Advertisement
 
 class AdvertisementFilter(filters.FilterSet):
     price = filters.RangeFilter()
-    delivery = filters.BooleanFilter()    
+    delivery = filters.BooleanFilter()
     pub_date = filters.DateRangeFilter()
 
     class Meta:

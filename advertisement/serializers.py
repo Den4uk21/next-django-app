@@ -5,7 +5,7 @@ from .models import Category, Section, Advertisement, AdvertisementImage
 class CategoriesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('name', 'url',)
+        fields = ('image', 'name', 'url',)
 
 class SectionsListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,7 +15,7 @@ class SectionsListSerializer(serializers.ModelSerializer):
 class AdvertisementImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdvertisementImage
-        fields = ('image',)
+        fields = ('id', 'image',)
 
 class AdvertisementsListSerializer(serializers.ModelSerializer):
     location = serializers.SlugRelatedField(slug_field='location', read_only=True, source='user')
@@ -32,6 +32,7 @@ class AdvertisementDetailSerializer(serializers.ModelSerializer):
     phone = serializers.SlugRelatedField(slug_field='phone', read_only=True, source='user')
     fullname = serializers.CharField(read_only=True, source='user.get_full_name')
     images = AdvertisementImageSerializer(many=True)
+    pub_date = serializers.DateTimeField(format=settings.DATE_FORMAT)
 
     class Meta:
         model = Advertisement
