@@ -8,7 +8,7 @@ export const Section = ({ name, url }: ISection) => {
     <Card fluid color="blue">
       <Card.Content>
         <Card.Header>
-          <Link href="/advertisement/[section_url]" as={`/advertisement/${url}`}>
+          <Link href="/advertisement/list/[section_url]" as={`/advertisement/list/${url}`}>
             <a>{name}</a>
           </Link>
         </Card.Header>

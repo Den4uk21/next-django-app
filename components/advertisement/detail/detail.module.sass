@@ -1,0 +1,49 @@
+@import '../../../styles/_templates'
+@import '../../../styles/_variables'
+  
+.carousel_wrapper
+  width: 55vw
+  text-align: center
+  @extend %wrapper-template
+
+.detail_wrapper
+  margin-top: 10px
+  @extend %wrapper-template
+
+  .header
+    .tag
+      padding: 2px 4px
+      border-radius: 5px
+      border: 1px solid $dark
+      opacity: 0.8
+      display: inline
+      margin-right: 10px
+
+    h1
+      margin-top: 0
+
+    h2
+      margin-top: 10px
+
+  .content
+    h2
+      margin-top: 24px
+
+    p
+      font-size: 18px
+
+  hr
+    height: 2px
+    background-color: $dark
+    border: none
+    margin: 40px 0 20px 0
+
+  .footer
+    padding: 0 10px
+
+.user_info_wrapper
+  float: right
+  position: absolute
+  top: 100px
+  right: 5vw
+  @extend %wrapper-template

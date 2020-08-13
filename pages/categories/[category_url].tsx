@@ -1,10 +1,9 @@
-import { GetStaticProps, GetStaticPaths } from 'next'
-import { Loader } from 'semantic-ui-react'
+import { GetServerSideProps } from 'next'
 
 import { SectionsList } from '../../components/sections/sectionsList'
 
 import { CategoriesUrls } from '../../types/categories/constants'
-import { ISection, ICategory } from '../../types/categories/types'
+import { ISection } from '../../types/categories/types'
 
 import styles from './sections-page.module.sass'
 
@@ -24,20 +23,9 @@ const SectionsPage = ({ sections }: ISectionsPageProps) => {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch(CategoriesUrls.getCategoriesUrl())
-  const categories: ICategory[] = await res.json()
-
-  const paths = categories.map((category) => ({
-    params: { category_url: category.url },
-  }))
-
-  return { paths, fallback: false }
-}
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const res = await fetch(CategoriesUrls.getSectionUrl(params.category_url))
-  const sections: ISection = await res.json()
+  const sections: ISection[] = await res.json()
 
   return {
     props: {

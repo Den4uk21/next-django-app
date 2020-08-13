@@ -5,6 +5,7 @@ import { Header } from '../components/header/header'
 import { Progressbar } from '../components/common/progressbar'
 
 import 'semantic-ui-css/semantic.min.css'
+import 'pure-react-carousel/dist/react-carousel.es.css'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (

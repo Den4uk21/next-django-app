@@ -1,4 +1,4 @@
-import { GetStaticProps, GetStaticPropsContext } from 'next'
+import { GetServerSideProps } from 'next'
 
 import { CategoriesList } from '../components/categories/categoriesList'
 
@@ -23,7 +23,7 @@ const StartPage = ({ categories }: IStartPageProps) => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async (ctx: GetStaticPropsContext) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const res = await fetch(CategoriesUrls.getCategoriesUrl())
   const categories: ICategory[] = await res.json()
 
