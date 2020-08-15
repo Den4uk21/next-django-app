@@ -9,15 +9,12 @@ from .serializers import (
     AdvertisementDetailSerializer,
     AdvertisementCreateSerializer
 )
-from .service import AdvertisementFilter
+from .service import AdvertisementsFilter, AdvertisementsPagination
 
 # Create your views here.
 class CategoriesListView(generics.ListAPIView):
     serializer_class = CategoriesListSerializer
-
-    def get_queryset(self):
-        categories = Category.objects.all()
-        return categories
+    queryset = Category.objects.all()
 
 class SectionsListView(generics.ListAPIView):
     serializer_class = SectionsListSerializer
@@ -28,11 +25,12 @@ class SectionsListView(generics.ListAPIView):
         sections = Section.objects.filter(category=category)
         return sections
 
-class AdvertisementListView(generics.ListAPIView):
+class AdvertisementsListView(generics.ListAPIView):
     serializer_class = AdvertisementsListSerializer
+    pagination_class = AdvertisementsPagination
 
     filter_backends = (DjangoFilterBackend, SearchFilter)
-    filterset_class = AdvertisementFilter
+    filterset_class = AdvertisementsFilter
     search_fields = ('title',)
 
     def get_queryset(self):
@@ -42,8 +40,8 @@ class AdvertisementListView(generics.ListAPIView):
         return advertisement
 
 class AdvertisementDetailView(generics.RetrieveAPIView):
-    queryset = Advertisement.objects.filter()
     serializer_class = AdvertisementDetailSerializer
+    queryset = Advertisement.objects.filter()
 
 class AdvertisementCreateView(generics.CreateAPIView):
     serializer_class = AdvertisementCreateSerializer

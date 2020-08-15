@@ -4,7 +4,7 @@
 
 <b>Do not forget to change the database settings in the project!</b>
 
-<b>REST Framework</b>: `http://127.0.0.1:8000/api-core/`
+<b>Swagger UI</b>: `http://localhost:8000/swagger/`
 
 ## Installation
 

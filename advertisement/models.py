@@ -7,7 +7,7 @@ from auth_core.models import User
 class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=50)
-    url = models.SlugField()
+    url = models.SlugField(unique=True)
     image = models.ImageField(upload_to='categories')
 
     def __str__(self):
@@ -19,7 +19,7 @@ class Category(models.Model):
 class Section(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     name = models.CharField(max_length=50)
-    url = models.SlugField()
+    url = models.SlugField(unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):

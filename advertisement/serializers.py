@@ -1,5 +1,6 @@
 from django.conf import settings
 from rest_framework import serializers
+from auth_core.models import User
 from .models import Category, Section, Advertisement, AdvertisementImage
 
 class CategoriesListSerializer(serializers.ModelSerializer):
@@ -12,6 +13,13 @@ class SectionsListSerializer(serializers.ModelSerializer):
         model = Section
         fields = ('name', 'url',)
 
+class SomeUserInfoSerializer(serializers.ModelSerializer):
+    fullname = serializers.CharField(read_only=True, source='get_full_name')
+
+    class Meta:
+        model = User
+        fields = ('id', 'fullname', 'avatar', 'phone', 'location')
+
 class AdvertisementImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdvertisementImage
@@ -20,23 +28,21 @@ class AdvertisementImageSerializer(serializers.ModelSerializer):
 class AdvertisementsListSerializer(serializers.ModelSerializer):
     location = serializers.SlugRelatedField(slug_field='location', read_only=True, source='user')
     images = AdvertisementImageSerializer(many=True)
-    pub_date = serializers.DateTimeField(format=settings.DATE_FORMAT)
+    pub_date = serializers.DateTimeField(read_only=True, format=settings.DATE_FORMAT)
 
     class Meta:
         model = Advertisement
-        fields = ('id', 'title', 'price', 'delivery', 'location', 'images', 'pub_date',)
+        exclude = ('user', 'section', 'description',)
 
 class AdvertisementDetailSerializer(serializers.ModelSerializer):
+    user = SomeUserInfoSerializer()
     section = serializers.SlugRelatedField(slug_field='name', read_only=True)
-    location = serializers.SlugRelatedField(slug_field='location', read_only=True, source='user')
-    phone = serializers.SlugRelatedField(slug_field='phone', read_only=True, source='user')
-    fullname = serializers.CharField(read_only=True, source='user.get_full_name')
     images = AdvertisementImageSerializer(many=True)
-    pub_date = serializers.DateTimeField(format=settings.DATE_FORMAT)
+    pub_date = serializers.DateTimeField(read_only=True, format=settings.DATE_FORMAT)
 
     class Meta:
         model = Advertisement
-        exclude = ('user',)
+        fields = '__all__'
 
 class AdvertisementCreateSerializer(serializers.ModelSerializer):
     class Meta:
