@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { Form, Accordion, Label } from 'semantic-ui-react'
 
 import { IFilter } from '../../types/advertisement/types'
-import { defaultFilters } from '../../types/advertisement/constants'
+import { queryUrlUtil } from '../../utils/queryUrlUtil'
 
 const optionsPubDate = [
   { text: 'All', value: '' },
@@ -22,13 +22,13 @@ const optionsDelivery = [
 
 export const Filters = () => {
   const [isActive, setIsActive] = useState<boolean>(false)
-  const [filters, setFilters] = useState<IFilter>(defaultFilters)
-  const { push } = useRouter()
+  const [filters, setFilters] = useState<IFilter>({})
+  const router = useRouter()
 
   const handleChange = (e, { name, value }) => setFilters({ ...filters, [name]: value })
 
   const handleSubmit = () => {
-    return push('/advertisement/list/[section_url]', `/advertisement/list/smartphones/?search=${filters.search}&price_min=${filters.price_min}&price_max=${filters.price_max}&delivery=${filters.delivery}&pub_date=${filters.pub_date}`)
+    router.push(router.pathname, queryUrlUtil({ ...filters, page: 1 }))
   }
 
   return (

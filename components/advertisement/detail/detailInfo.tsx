@@ -1,8 +1,8 @@
-import { IAdvertisementDetail } from '../../../types/advertisement/types'
+import { IAdvertisementExtended } from '../../../types/advertisement/types'
 
 import styles from './detail.module.sass'
 
-export const DetailInfo = (advertisement: IAdvertisementDetail) => {
+export const DetailInfo = (advertisement: IAdvertisementExtended) => {
   return (
     <div className={styles.detail_wrapper}>
       <div className={styles.header}>
@@ -28,7 +28,7 @@ export const DetailInfo = (advertisement: IAdvertisementDetail) => {
       <hr />
 
       <div className={styles.footer}>
-        <p>{advertisement.pub_date} — {advertisement.location}</p>
+        <p>{advertisement.pub_date}</p>
       </div>
     </div>
   )

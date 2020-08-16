@@ -10,14 +10,16 @@ import { IAdvertisementDetail } from '../../../types/advertisement/types'
 import styles from './ad-detail.module.sass'
 
 interface IAdvertisementsDetailPageProps {
-  advertisement: IAdvertisementDetail
+  advertisementDetail: IAdvertisementDetail
 }
 
-const AdvertisementsDetailPage = ({ advertisement }: IAdvertisementsDetailPageProps) => {
+const AdvertisementsDetailPage = ({ advertisementDetail }: IAdvertisementsDetailPageProps) => {
+  const { images, user, ...advertisement } = advertisementDetail
+
   return (
     <main className={styles.ad_detail_page}>
-      <ImageCarousel images={advertisement.images} />
-      <UserInfo />
+      <ImageCarousel images={images} />
+      <UserInfo {...user} />
       <DetailInfo {...advertisement} />
     </main>
   )
@@ -25,11 +27,11 @@ const AdvertisementsDetailPage = ({ advertisement }: IAdvertisementsDetailPagePr
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const res = await fetch(AdvertisementsUrls.getAdvertisementDetail(params.id))
-  const advertisement: IAdvertisementDetail = await res.json()
+  const advertisementDetail: IAdvertisementDetail = await res.json()
 
   return {
     props: {
-      advertisement
+      advertisementDetail
     }
   }
 }

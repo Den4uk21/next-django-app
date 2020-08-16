@@ -2,12 +2,12 @@ import { Card } from 'semantic-ui-react'
 
 import { Advertisement } from './advertisement'
 
-import { IAdvertisement } from '../../../types/advertisement/types'
+import { IAdvertisementLink } from '../../../types/advertisement/types'
 
 import styles from './advertisement.module.sass'
 
 interface IAdvertisementListProps {
-  advertisements: IAdvertisement[]
+  advertisements: IAdvertisementLink[]
 }
 
 export const AdvertisementList = ({ advertisements }: IAdvertisementListProps) => {
